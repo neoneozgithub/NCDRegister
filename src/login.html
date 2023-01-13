@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>ระบบลงทะเบียน</title>
+  <?!= include ('login_css') ?>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<section id="page1">
+    <div class="wrapper mx-auto mt-3">
+      <div class="form-container">
+        <div class="slide-controls">
+          <input type="radio" name="slide" id="login" checked>
+          <input type="radio" name="slide" id="signup">
+          <label for="login" class="slide login">เข้าสู่ระบบ</label>
+          <label for="signup" class="slide signup">ลงทะเบียน</label>
+          <div class="slider-tab"></div>
+        </div>
+        <div class="form-inner">
+          <form action="#" class="login" id="form2" onsubmit="sumitSignIn(this)">
+            <div class="field">
+              <input type="text" style="text-align:center" placeholder="อีเมล์"  name ="input1" required>
+            </div>
+            <div class="field">
+              <input type="password" style="text-align:center" placeholder="รหัสผ่าน"  name ="input2" required>
+            </div>
+            <div class="alert" id="output1"></div>
+            <!-- <div class="pass-link">
+                     <a href="#">Forgot password?</a>
+                  </div> -->
+   
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="ลงชื่อเข้าใช้">
+            </div>
+            <center class="mt-2">
+    <span id="resp-spinner5" class="spinner-grow spinner-grow-sm text-danger d-none" role="status" aria-hidden="true"></span>
+    <span id="resp-spinner6" class="spinner-grow spinner-grow-sm text-warning d-none" role="status" aria-hidden="true"></span>
+    <span id="resp-spinner7" class="spinner-grow spinner-grow-sm text-success d-none" role="status" aria-hidden="true"></span>
+            </center>
+            <div class="signup-link">
+              ยังไม่ได้เป็นสมาชิก? <a href="">ลงทะเบียน</a>
+            </div>
+          </form>
+
+          <form action="#" class="signup" id="form1" onsubmit="sumitSignUp(this)">
+            <div class="field">
+              <input type="email" placeholder="อีเมล์" name ="input1" required>
+            </div>
+            <div class="field">
+              <input type="password" placeholder="รหัสผ่าน" name="input2" required>
+            </div>
+            <div class="field">
+              <input type="text" placeholder="ชื่อ สกุล" name="input3" required>
+            </div>
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="ลงทะเบียน">
+              </div>
+<center class="mt-2">
+    <span id="resp-spinner8" class="spinner-grow spinner-grow-sm text-danger d-none" role="status" aria-hidden="true"></span>
+    <span id="resp-spinner9" class="spinner-grow spinner-grow-sm text-warning d-none" role="status" aria-hidden="true"></span>
+    <span id="resp-spinner10" class="spinner-grow spinner-grow-sm text-success d-none" role="status" aria-hidden="true"></span>
+</center>
+            <div class="alert" id="output2"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section id="page2" style="display:none">
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="https://script.google.com/macros/s/AKfycbxt7SnTrFJkgJjcqZGHd9tsJcUV-bU6Gf22kdwegTcXvlO4U5TsyUId-iu7cgJCMluJOg/exec" class="embed-responsive-item" scrolling="no"></iframe>
+</div>
+
+</section>
+
+  <script>
+  
+         const loginText = document.querySelector(".title-text .login");
+         const loginForm = document.querySelector("form.login");
+         const loginBtn = document.querySelector("label.login");
+         const signupBtn = document.querySelector("label.signup");
+         const signupLink = document.querySelector("form .signup-link a");
+         signupBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "-50%";
+           loginText.style.marginLeft = "-50%";
+         });
+         loginBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "0%";
+           loginText.style.marginLeft = "0%";
+         });
+         signupLink.onclick = (()=>{
+           signupBtn.click();
+           return false;
+         });
+
+         function sumitSignUp(obj){
+           event.preventDefault()
+           google.script.run.withSuccessHandler(success1).signup(obj)
+           document.getElementById('resp-spinner8').classList.remove("d-none");
+           document.getElementById('resp-spinner9').classList.remove("d-none");
+           document.getElementById('resp-spinner10').classList.remove("d-none");
+
+         }
+
+         function success1(){
+          document.getElementById('output2').innerHTML = "ลงทะเบียนเรียบร้อยแล้ว"
+          document.getElementById('form1').reset()
+          document.getElementById('resp-spinner8').classList.add("d-none");
+          document.getElementById('resp-spinner9').classList.add("d-none");
+          document.getElementById('resp-spinner10').classList.add("d-none"); 
+
+         }
+
+         function sumitSignIn(obj){
+           event.preventDefault()
+           google.script.run.withSuccessHandler(success2).signin(obj)
+           document.getElementById('output1').innerHTML = ""
+          document.getElementById('resp-spinner5').classList.remove("d-none");
+          document.getElementById('resp-spinner6').classList.remove("d-none");
+          document.getElementById('resp-spinner7').classList.remove("d-none");
+
+         }
+         
+         function success2(output){
+           if(output == true){
+          document.getElementById('output1').innerHTML = "ลงชื่อเข้าใช้เรียบร้อยแล้ว"
+          document.getElementById('form2').reset()
+          document.getElementById('resp-spinner5').classList.add("d-none");
+          document.getElementById('resp-spinner6').classList.add("d-none");
+          document.getElementById('resp-spinner7').classList.add("d-none"); 
+
+          $('#page2').show() 
+          $('#page1').hide()
+         
+           }else{
+          document.getElementById('output1').innerHTML = "คุณกรอกข้อมูลไม่ถูกต้อง!"
+          document.getElementById('resp-spinner5').classList.add("d-none");
+          document.getElementById('resp-spinner6').classList.add("d-none");
+          document.getElementById('resp-spinner7').classList.add("d-none"); 
+           }
+
+         }
+    function logout() {
+          $('#page1').show() 
+          $('#page2').hide()
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
